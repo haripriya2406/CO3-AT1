@@ -1,0 +1,47 @@
+import time
+
+def iterative_binary_search(arr, target):
+    low, high = 0, len(arr) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return -1
+
+def recursive_binary_search(arr, low, high, target):
+    if low > high:
+        return -1
+
+    mid = (low + high) // 2
+
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] < target:
+        return recursive_binary_search(arr, mid + 1, high, target)
+    else:
+        return recursive_binary_search(arr, low, mid - 1, target)
+
+sizes = [1000, 10000, 100000]
+
+print("Size\tIterative Time\tRecursive Time")
+
+for size in sizes:
+    arr = list(range(size))
+    target = size - 1
+
+    start = time.perf_counter()
+    iterative_binary_search(arr, target)
+    iterative_time = time.perf_counter() - start
+
+    start = time.perf_counter()
+    recursive_binary_search(arr, 0, len(arr)-1, target)
+    recursive_time = time.perf_counter() - start
+
+    print(f"{size}\t{iterative_time:.8f}\t{recursive_time:.8f}")
